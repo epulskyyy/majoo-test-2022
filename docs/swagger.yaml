@@ -349,6 +349,36 @@ paths:
       summary: for get transactions
       tags:
       - Transaction
+  /transaction/report/:
+    get:
+      consumes:
+      - application/json
+      description: create report transaction.
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: year
+        in: query
+        name: year
+        type: string
+      - description: month
+        in: query
+        name: month
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: create report transaction
+      tags:
+      - Transaction
   /transaction/report/csv:
     get:
       consumes:

@@ -69,7 +69,7 @@ func (api *TransactionApi) getTransactions(c *gin.Context) {
 	res:= api.usecase.GetAllTrx(limit,page)
 	res.Send(c)
 }
-// getReportTrx func create report transaction.
+// getReportTrxs func create report transaction.
 // @Description create report transaction.
 // @Summary create report transaction
 // @Tags Transaction
@@ -80,7 +80,7 @@ func (api *TransactionApi) getTransactions(c *gin.Context) {
 // @Param year query string false "year"
 // @Param month query string false "month"
 // @Security ApiKeyAuth
-// @Router /transaction/report/csv [get]
+// @Router /transaction/report/ [get]
 func (api *TransactionApi) getReportTrx(c *gin.Context) {
 	page := c.Query("page")
 	limit := c.Query("limit")
