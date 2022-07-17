@@ -1,0 +1,411 @@
+basePath: /api
+definitions:
+  httputil.ResponseMessage:
+    properties:
+      code:
+        type: string
+      data: {}
+      error: {}
+      http_code:
+        type: integer
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  model.Auth:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  model.AuthResp:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  model.AuthToken:
+    properties:
+      token:
+        type: string
+    type: object
+  model.Merchant:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      id:
+        type: integer
+      merchant_name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  model.Outlet:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      id:
+        type: integer
+      merchant_id:
+        type: integer
+      outlet_name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: integer
+    type: object
+  model.Transaction:
+    properties:
+      bill_total:
+        type: number
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      id:
+        type: integer
+      merchant_id:
+        type: integer
+      outlet_id:
+        type: integer
+      updated_at:
+        type: string
+      updated_by:
+        type: integer
+    type: object
+  model.User:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: integer
+      user_name:
+        type: string
+    type: object
+  pagination.Pagination:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      rows: {}
+      sort:
+        type: string
+      total_pages:
+        type: integer
+      total_rows:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: saepulstr@gmail.com
+    name: Epul
+  description: This is a sample Go API Documentation.
+  title: Majoo Test API
+  version: "1.0"
+paths:
+  /api/transaction/:id:
+    get:
+      consumes:
+      - application/json
+      description: for get transaction by id.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Transaction'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: for get transaction by id
+      tags:
+      - Transaction
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login.
+      parameters:
+      - description: Auth attributes
+        in: body
+        name: account_req_attrs
+        required: true
+        schema:
+          $ref: '#/definitions/model.Auth'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.AuthResp'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      summary: Login
+      tags:
+      - Auth
+  /logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Logout
+      tags:
+      - Auth
+  /merchant/:id:
+    get:
+      consumes:
+      - application/json
+      description: for get merchant by id.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Merchant'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: for get merchant by id
+      tags:
+      - Merchant
+  /outlet/:id:
+    get:
+      consumes:
+      - application/json
+      description: for get outlet by id.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Outlet'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: for get outlet by id
+      tags:
+      - Outlet
+  /refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh token.
+      parameters:
+      - description: AuthToken attributes
+        in: body
+        name: account_req_attrs
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthToken'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.AuthResp'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      summary: Refresh
+      tags:
+      - Auth
+  /transaction/:id:
+    get:
+      consumes:
+      - application/json
+      description: for get transactions.
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/pagination.Pagination'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: for get transactions
+      tags:
+      - Transaction
+  /transaction/report/csv:
+    get:
+      consumes:
+      - application/json
+      description: create report transaction.
+      parameters:
+      - description: year
+        in: query
+        name: year
+        type: string
+      - description: month
+        in: query
+        name: month
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: create report transaction
+      tags:
+      - Transaction
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      description: for get info.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/httputil.ResponseMessage'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.ResponseMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: for get info
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
+x-extension-openapi:
+  example: value on a json format
